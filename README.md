@@ -3,7 +3,16 @@
 A scraper and web application for high schools and college CEEB Codes.
 
 
+## Installation
+
+```
+$ pip install -r requirements.txt
+```
+
+
 ## Configure MongoDB
+
+Binary backups and JSON backups can be found in `backups/`
 
 ```
 $ export MONGO_URI=<MONGO_URI>
@@ -12,31 +21,71 @@ $ export MONGO_URI=<MONGO_URI>
 Default URI is `mongodb://localhost:27017/schools`.
 
 
-## Run web application
+## Running web application
 
 ```
 $ python app.py
 ```
 
-`GET /api/colleges`
+GET /api/colleges
 
 ```
-$ curl 'localhost:5000/api/colleges?state=CA&city=Syracuse'
+$ curl 'localhost:5000/api/colleges?state=CA&city=Alameda'
 ```
 
-`GET /api/highschools`
+```
+{
+  "count": 1,
+  "results": [
+    {
+      "address": {
+        "city": "Alameda",
+        "state": "CA"
+      },
+      "ceeb_code": "4118",
+      "name": "Coll Alameda"
+    }
+  ]
+}
+```
+
+GET /api/highschools
 
 ```
-$ curl 'localhost:5000/api/highschools?state=CA&city=Syracuse'
+$ curl 'localhost:5000/api/highschools?state=NY&city=Liverpool'
 ```
 
-## Run scraper
+```
+{
+  "count": 1,
+  "results": [
+    {
+      "address": {
+        "city": "Liverpool",
+        "state": "NY"
+      },
+      "ceeb_code": "332850",
+      "name": "Liverpool High School"
+    }
+  ]
+}
+```
 
-Binary backups and JSON backups can be found in `backups/`
+
+## Running scraper
 
 ```
 $ python scraper.py
 ```
+
+
+## Running tests
+
+```
+$ pip install nose
+$ nosetests
+```
+
 
 ## LICENSE
 

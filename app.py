@@ -16,7 +16,6 @@ def get_db():
 
 @app.teardown_appcontext
 def teardown_mongo(exception):
-    import pdb; pdb.set_trace()
     mongo = getattr(g, '_database', None)
     if mongo is not None:
         mongo.close()
