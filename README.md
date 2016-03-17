@@ -12,13 +12,27 @@ $ pip install -r requirements.txt
 
 ## Configure MongoDB
 
-Binary backups and JSON backups can be found in `backups/`
+Binary backups and JSON backups can be found in `backups/`.
+
+Restore the `colleges` collection.
+
+```
+$ mongorestore --host <HOST> --port <PORT> --username <USER> --password <PASSWORD> --collection colleges --db <DB> backups/dump/schools/colleges.bson
+```
+
+Restore the `highschools` collection.
+
+```
+$ mongorestore --host <HOST> --port <PORT> --username <USER> --password <PASSWORD> --collection highschools --db <DB> backups/dump/schools/highschools.bson
+```
+
+The scraper and web application use the environment variable `MONGO_URI` for connecting to mongo.
 
 ```
 $ export MONGO_URI=<MONGO_URI>
 ```
 
-Default URI is `mongodb://localhost:27017/schools`.
+If not set, the following URI will be used: `mongodb://localhost:27017/schools`.
 
 
 ## Running web application
@@ -89,4 +103,4 @@ $ nosetests
 
 ## LICENSE
 
-Copyright 2016 Raul Chacon
+Copyright 2016 Raul Chacon. All rights reserved.
