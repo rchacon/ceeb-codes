@@ -93,6 +93,11 @@ $ python scraper.py
 ```
 
 
+## Swagger
+
+GET /apidocs/index.html
+
+
 ## Running tests
 
 ```

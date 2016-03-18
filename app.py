@@ -1,9 +1,13 @@
 from flask import abort, Flask, g, jsonify, request
+from flasgger import Swagger
+from flasgger.utils import swag_from
 
 from settings import get_mongo_client
 
 
 app = Flask(__name__)
+
+Swagger(app)
 
 
 def get_db():
@@ -37,7 +41,8 @@ def bad_request(e):
     return resp
 
 
-@app.route('/api/highschools')
+@app.route('/api/highschools', methods=['GET'])
+@swag_from('swagger/highschools.yml')
 def get_highschools():
     state = request.args.get('state')
     city = request.args.get('city')
@@ -50,7 +55,8 @@ def get_highschools():
     return jsonify({'results': highschools, 'count': len(highschools)})
 
 
-@app.route('/api/colleges')
+@app.route('/api/colleges', methods=['GET'])
+@swag_from('swagger/colleges.yml')
 def get_colleges():
     state = request.args.get('state')
     city = request.args.get('city')

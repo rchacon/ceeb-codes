@@ -1,0 +1,40 @@
+Get a list of high schools.
+---
+tags:
+  - highschools
+parameters:
+  - name: state
+    in: query
+    type: string
+    required: true
+    description: US State abbreviation
+    default: NY
+  - name: city
+    in: query
+    type: string
+    required: true
+    description: US City
+    default: Liverpool
+responses:
+  200:
+    description: A list of high schools
+    schema:
+      id: return_highschools
+      properties:
+        results:
+          type: list
+          description: list of highschools
+          default: [
+            {
+              "address": {
+                "city": "Liverpool",
+                "state": "NY"
+              },
+              "ceeb_code": "332850",
+              "name": "Liverpool High School"
+            }
+          ]
+        count:
+          type: integer
+          description: number of high schools
+          default: 1
