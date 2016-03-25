@@ -35,10 +35,19 @@ $ export MONGO_URI=<MONGO_URI>
 If not set, the following URI will be used: `mongodb://localhost:27017/schools`.
 
 
+## Heroku Configuration
+
+Gunicorn automatically honors the WEB_CONCURRENCY environment variable, if set.
+
+```
+$ heroku config:set WEB_CONCURRENCY=3
+```
+
+
 ## Running web application
 
 ```
-$ python app.py
+$ python ceeb/app.py
 ```
 
 GET /api/colleges
@@ -86,16 +95,16 @@ $ curl 'localhost:5000/api/highschools?state=NY&city=Liverpool'
 ```
 
 
+## Swagger
+
+GET /apidocs/index.html
+
+
 ## Running scraper
 
 ```
 $ python scraper.py
 ```
-
-
-## Swagger
-
-GET /apidocs/index.html
 
 
 ## Running tests
