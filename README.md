@@ -117,4 +117,5 @@ $ nosetests
 
 ## LICENSE
 
-Copyright 2016 Raul Chacon. All rights reserved.
+MIT
+
