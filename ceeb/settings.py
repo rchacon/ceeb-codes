@@ -29,7 +29,7 @@ def get_logger(name):
 
 # Constants
 
-BASE_URL = 'http://www.suny.edu/attend/ceeb-codes'
+BASE_URL = 'https://www.suny.edu/attend/ceeb-codes'
 
 TIMEOUT = 20
 
