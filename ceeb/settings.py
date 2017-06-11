@@ -1,15 +1,3 @@
-import os
-
-from pymongo import MongoClient
-
-
-def get_mongo_client():
-    mongo_uri = os.getenv('MONGO_URI', 'mongodb://localhost:27017/schools')
-    client = MongoClient(mongo_uri)
-
-    return client
-
-
 def get_logger(name):
     import logging
 
@@ -28,10 +16,6 @@ def get_logger(name):
 
 
 # Constants
-
-BASE_URL = 'https://www.suny.edu/attend/ceeb-codes'
-
-TIMEOUT = 20
 
 STATES = {
     'Alabama': 2,

@@ -1,10 +1,16 @@
+import os
 from datetime import datetime
 
 from lxml.html import document_fromstring
+from pymongo import MongoClient
 import requests
 
-from .settings import BASE_URL, STATES, TIMEOUT
-from .settings import get_mongo_client, get_logger
+from .settings import get_logger, STATES
+
+
+BASE_URL = 'https://www.suny.edu/attend/ceeb-codes'
+
+TIMEOUT = 20
 
 
 def parse(html, poll_time, td_offset=0):
@@ -47,7 +53,6 @@ def get_html(url, form=None):
     session = requests.Session()
 
     session.headers.update({
-        'Content-Type': 'application/x-www-form-urlencoded',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36'
     })
 
@@ -96,18 +101,21 @@ def scrape_colleges(state, city='', name=''):
     return colleges
 
 
-def main():
+def main(save):
     """Scrape ceeb codes and insert them into mongo."""
     logger = get_logger('ceeb')
     logger.debug('*' * 79)
 
-    mongo = get_mongo_client()
-    db = mongo.get_default_database()
+    if save:
+        client = MongoClient(os.getenv('MONGO_URI'))
+        db = client.get_default_database()
+
+    states = STATES.keys()
 
     # Process highschools
     hs_found = 0
     hs_saved = 0
-    for state in STATES.keys():
+    for state in states:
         logger.info('Processing %s highschools' % state)
         highschools = scrape_highschools(state)
 
@@ -115,7 +123,7 @@ def main():
         hs_found += len(highschools)
 
         # Insert highschools into mongo
-        if len(highschools) > 0:
+        if len(highschools) > 0 and save:
             hs_result = db.highschools.insert_many(highschools)
             logger.info('Highschools records inserted: %s' % len(hs_result.inserted_ids))
 
@@ -130,7 +138,7 @@ def main():
     # Process colleges
     coll_found = 0
     coll_saved = 0
-    for state in STATES.keys():
+    for state in states:
         logger.info('Processing %s colleges' % state)
         colleges = scrape_colleges(state)
 
@@ -138,7 +146,7 @@ def main():
         coll_found += len(colleges)
 
         # Insert colleges into mongo
-        if len(colleges) > 0:
+        if len(colleges) > 0 and save:
             coll_result = db.colleges.insert_many(colleges)
             logger.info('College records inserted: %s' % len(coll_result.inserted_ids))
 
@@ -150,8 +158,19 @@ def main():
     logger.info('Total colleges found: %s' % coll_found)
     logger.info('Total colleges saved: %s' % coll_saved)
 
-    mongo.close()
+    if save:
+        client.close()
 
 
 if __name__ == '__main__':
-    main()
+    import argparse
+    import sys
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--save', action='store_true', help='Save to mongo')
+    args = parser.parse_args()
+
+    if args.save and os.getenv('MONGO_URI') is None:
+        sys.exit('Environment Variable MONGO_URI must be set.')
+
+    main(args.save)

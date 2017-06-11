@@ -81,7 +81,7 @@ GET /apidocs/index.html
 
 ```
 $ docker exec -it ceebcodes_app_1 /bin/bash
-$ python -m ceeb.scraper
+$ python -m ceeb.scraper [--save]
 ```
 
 
