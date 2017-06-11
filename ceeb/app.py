@@ -2,7 +2,7 @@ from flask import abort, Flask, jsonify, request
 from flasgger import Swagger
 from flasgger.utils import swag_from
 
-from db import Mongo, get_schools
+from .db import Mongo, get_schools
 
 
 app = Flask(__name__)

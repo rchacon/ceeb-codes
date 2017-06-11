@@ -3,8 +3,8 @@ from datetime import datetime
 from lxml.html import document_fromstring
 import requests
 
-from settings import BASE_URL, STATES, TIMEOUT
-from settings import get_mongo_client, get_logger
+from .settings import BASE_URL, STATES, TIMEOUT
+from .settings import get_mongo_client, get_logger
 
 
 def parse(html, poll_time, td_offset=0):

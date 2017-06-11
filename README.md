@@ -3,36 +3,17 @@
 A scraper and web application for high schools and college CEEB Codes.
 
 
-## Installation
+## Usage
 
 ```
-$ pip install -r requirements.txt
+$ docker-compose up -d
 ```
 
-
-## Configure MongoDB
-
-Binary backups and JSON backups can be found in `backups/`.
-
-Restore the `colleges` collection.
+Restore database:
 
 ```
-$ mongorestore --host <HOST> --port <PORT> --username <USER> --password <PASSWORD> --collection colleges --db <DB> backups/dump/schools/colleges.bson
+$ docker exec -it ceebcodes_mongo_1 /bin/bash /tmp/backups/restore.sh
 ```
-
-Restore the `highschools` collection.
-
-```
-$ mongorestore --host <HOST> --port <PORT> --username <USER> --password <PASSWORD> --collection highschools --db <DB> backups/dump/schools/highschools.bson
-```
-
-The scraper and web application use the environment variable `MONGO_URI` for connecting to mongo.
-
-```
-$ export MONGO_URI=<MONGO_URI>
-```
-
-If not set, the following URI will be used: `mongodb://localhost:27017/schools`.
 
 
 ## Heroku Configuration
@@ -44,11 +25,7 @@ $ heroku config:set WEB_CONCURRENCY=3
 ```
 
 
-## Running web application
-
-```
-$ python ceeb/app.py
-```
+## JSON endpoints
 
 GET /api/colleges
 
@@ -56,7 +33,7 @@ GET /api/colleges
 $ curl 'localhost:5000/api/colleges?state=CA&city=Alameda'
 ```
 
-```
+```json
 {
   "count": 1,
   "results": [
@@ -78,7 +55,7 @@ GET /api/highschools
 $ curl 'localhost:5000/api/highschools?state=NY&city=Liverpool'
 ```
 
-```
+```json
 {
   "count": 1,
   "results": [
@@ -103,19 +80,22 @@ GET /apidocs/index.html
 ## Running scraper
 
 ```
-$ python scraper.py
+$ docker exec -it ceebcodes_app_1 /bin/bash
+$ python -m ceeb.scraper
 ```
 
 
 ## Running tests
 
 ```
-$ pip install nose
-$ nosetests
+$ virtualenv -p python3 --no-site-packages .env
+$ source .env/bin/activate
+$ pip install -r requirements.txt
+$ pip install -r tests/requirements.txt
+$ python -m pytest tests/ --cov=ceeb --cov-report term-missing
 ```
 
 
 ## LICENSE
 
 MIT
-

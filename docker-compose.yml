@@ -1,0 +1,15 @@
+version: '2'
+services:
+  app:
+    build: ./containers/app
+    volumes:
+      - ./ceeb:/opt/ceeb
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    volumes:
+      - ./backups:/tmp/backups

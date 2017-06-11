@@ -2,7 +2,7 @@ from datetime import datetime
 import os
 import unittest
 
-from scraper import parse
+from ceeb.scraper import parse
 
 
 TEST_DIR = os.path.dirname(__file__)
@@ -66,7 +66,6 @@ class ScraperTest(unittest.TestCase):
         ceeb_codes = parse(html, poll_time)
 
         self.assertEqual(0, len(ceeb_codes))
-
 
 
 if __name__ == '__main__':
