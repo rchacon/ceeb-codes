@@ -1,8 +1,10 @@
 from flask import abort, Flask, jsonify, request
 from flasgger import Swagger
 from flasgger.utils import swag_from
+from six import iteritems
 
 from .db import Mongo, get_schools
+from .settings import STATES
 
 
 app = Flask(__name__)
@@ -26,6 +28,13 @@ def bad_request(e):
     resp.status_code = 400
 
     return resp
+
+
+@app.route('/api/states', methods=['GET'])
+def get_states():
+    states = [{'name': k, 'abbr': v['abbr']} for k, v in iteritems(STATES)]
+
+    return jsonify({'results': states, 'count': len(states)})
 
 
 @app.route('/api/highschools', methods=['GET'])

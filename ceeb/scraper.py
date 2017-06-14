@@ -72,7 +72,7 @@ def get_html(url, form=None):
 def scrape_highschools(state, city='', name=''):
     form = {
         'HSName': name,
-        'State': STATES[state],
+        'State': STATES[state]['id'],
         'City': city
     }
 
@@ -88,7 +88,7 @@ def scrape_highschools(state, city='', name=''):
 def scrape_colleges(state, city='', name=''):
     form = {
         'collName': name,
-        'state': STATES[state],
+        'state': STATES[state]['id'],
         'city': city
     }
 
