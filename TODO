@@ -1,0 +1,16 @@
+## Data Problems
+
+Following NY highschools do not have a city:
+
+```json
+[
+  {
+    "code": "335316", 
+    "name": "Green Meadow Waldorf School"
+  }, 
+  {
+    "code": "335310", 
+    "name": "Spring Valley High School"
+  }
+]
+```
